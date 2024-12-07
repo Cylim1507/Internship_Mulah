@@ -1,21 +1,21 @@
 function init() {
-    var w = 500; // Width of the chart
-    var h = 300; // Increased height of the chart
-    var margin = { top: 20, right: 20, bottom: 60, left: 50 }; // Adjusted margins for better spacing
+    // Set dimensions and margins for the chart
+    const w = 500; 
+    const h = 300; 
+    const margin = { top: 20, right: 20, bottom: 60, left: 50 };
 
-    var innerWidth = w - margin.left - margin.right;
-    var innerHeight = h - margin.top - margin.bottom;
+    const innerWidth = w - margin.left - margin.right;
+    const innerHeight = h - margin.top - margin.bottom;
 
-    var dataset = []; // Dataset variable
+    // Placeholder for the dataset
+    let dataset = [];
 
-    // Load CSV file
-    d3.csv("Table_Input.csv", function (d) {
-        return {
-            index: d.Index, // Use the correct column name ("Index")
-            value: +d.Value // Convert the "Value" column to a number
-        };
-    }).then(function (data) {
-        // Filter out invalid data
+    // Load CSV data
+    d3.csv("Table_Input.csv", d => ({
+        index: d.Index,
+        value: +d.Value // Convert 'Value' to a number
+    })).then(data => {
+        // Filter out invalid or missing data
         dataset = data.filter(d => !isNaN(d.value));
 
         if (dataset.length === 0) {
@@ -24,29 +24,28 @@ function init() {
         }
 
         // Create scales
-        var xScale = d3.scaleBand()
-            .domain(dataset.map(d => d.index)) // Use the "index" for the X-axis
+        const xScale = d3.scaleBand()
+            .domain(dataset.map(d => d.index))
             .range([0, innerWidth])
             .padding(0.05);
 
-        var yScale = d3.scaleLinear()
+        const yScale = d3.scaleLinear()
             .domain([0, d3.max(dataset, d => d.value)])
             .range([innerHeight, 0]);
 
         // Create SVG container
-        var svg = d3.select("#chart")
+        const svg = d3.select("#chart")
             .append("svg")
             .attr("width", w)
             .attr("height", h);
 
-        var chartGroup = svg.append("g")
+        const chartGroup = svg.append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        // Create Axes
-        var xAxis = d3.axisBottom(xScale);
-        var yAxis = d3.axisLeft(yScale);
+        // Append axes
+        const xAxis = d3.axisBottom(xScale);
+        const yAxis = d3.axisLeft(yScale);
 
-        // Add X-axis
         chartGroup.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0, ${innerHeight})`)
@@ -55,12 +54,11 @@ function init() {
             .attr("transform", "rotate(-45)")
             .style("text-anchor", "end");
 
-        // Add Y-axis
         chartGroup.append("g")
             .attr("class", "y-axis")
             .call(yAxis);
 
-        // Add text label for Y-axis
+        // Add axis labels
         chartGroup.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -margin.left + 10)
@@ -69,7 +67,6 @@ function init() {
             .style("text-anchor", "middle")
             .text("Values");
 
-        // Add text label for X-axis
         chartGroup.append("text")
             .attr("x", innerWidth / 2)
             .attr("y", innerHeight + margin.bottom - 10)
@@ -78,10 +75,10 @@ function init() {
 
         // Function to render bars
         function renderBars() {
-            var bars = chartGroup.selectAll("rect").data(dataset);
+            const bars = chartGroup.selectAll("rect").data(dataset);
 
-            // Enter + Update
-            var barsEnter = bars.enter()
+            // Enter and merge bars
+            const barsEnter = bars.enter()
                 .append("rect")
                 .merge(bars);
 
@@ -102,10 +99,10 @@ function init() {
                         .duration(200)
                         .attr("fill", "orange");
 
-                    var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
-                    var yPosition = yScale(d.value) - 5;
+                    const xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+                    const yPosition = yScale(d.value) - 5;
 
-                    // Append text when hovering
+                    // Append tooltip
                     chartGroup.append("text")
                         .attr("id", "tooltip")
                         .attr("x", xPosition)
@@ -122,23 +119,23 @@ function init() {
                         .attr("fill", "rgb(106, 90, 205)");
                 });
 
-            // Remove old elements
+            // Remove old bars
             bars.exit().remove();
         }
 
-        // Initial rendering of the chart
+        // Render bars initially
         renderBars();
 
-        // Step 1: Process Table 1 data for calculations
+        // Create table1 dictionary for calculations
         const table1Dict = {};
         dataset.forEach(row => {
-            table1Dict[row.index] = row.value; // Create a dictionary for easy lookup
+            table1Dict[row.index] = row.value;
         });
 
-        // Perform calculations for Table 2
-        const alpha = table1Dict["A5"] + table1Dict["A20"]; // A5 + A20
-        const beta = Math.round(table1Dict["A15"] / table1Dict["A7"]); // A15 / A7
-        const charlie = table1Dict["A13"] * table1Dict["A12"]; // A13 * A12
+        // Calculate Table 2 values
+        const alpha = table1Dict["A5"] + table1Dict["A20"]; 
+        const beta = Math.round(table1Dict["A15"] / table1Dict["A7"]);
+        const charlie = table1Dict["A13"] * table1Dict["A12"];
 
         const table2Data = [
             { category: "Alpha", value: alpha },
@@ -146,7 +143,7 @@ function init() {
             { category: "Charlie", value: charlie }
         ];
 
-        // Step 2: Populate Table 2 using D3.js
+        // Populate Table 2
         const table2Body = d3.select("#table2 tbody");
 
         table2Data.forEach(row => {
@@ -162,10 +159,10 @@ function init() {
                 .style("border", "1px solid black")
                 .style("padding", "8px");
         });
-    }).catch(function (error) {
+    }).catch(error => {
         console.error("Error loading CSV data:", error);
     });
 }
 
-// Initialize the chart when the window loads
+// Initialize the visualization on page load
 window.onload = init;
