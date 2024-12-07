@@ -11,12 +11,23 @@ function init() {
     let dataset = [];
 
     // Load CSV data
-    d3.csv("Table_Input.csv", d => ({
-        index: d.Index,
-        value: +d.Value // Convert 'Value' to a number
-    })).then(data => {
-        // Filter out invalid or missing data
-        dataset = data.filter(d => !isNaN(d.value));
+    d3.csv("Table_Input.csv").then(rawData => {
+        // Clean column names to remove special characters
+        const cleanedData = rawData.map(row => {
+            const cleanedRow = {};
+            for (const key in row) {
+                // Clean the column name: remove spaces, #, etc.
+                const cleanedKey = key.replace(/\s|\#/g, "").toLowerCase(); // Make lowercase for consistency
+                cleanedRow[cleanedKey] = row[key];
+            }
+            return cleanedRow;
+        });
+
+        // Process cleaned data
+        dataset = cleanedData.map(d => ({
+            index: d.index, // Use cleaned column name
+            value: +d.value // Convert 'value' to a number
+        })).filter(d => !isNaN(d.value)); // Filter out invalid or missing data
 
         if (dataset.length === 0) {
             console.error("Dataset is empty. Check the CSV file or data loading logic.");
@@ -133,9 +144,9 @@ function init() {
         });
 
         // Calculate Table 2 values
-        const alpha = table1Dict["A5"] + table1Dict["A20"]; 
-        const beta = Math.round(table1Dict["A15"] / table1Dict["A7"]);
-        const charlie = table1Dict["A13"] * table1Dict["A12"];
+        const alpha = table1Dict["a5"] + table1Dict["a20"]; 
+        const beta = Math.round(table1Dict["a15"] / table1Dict["a7"]);
+        const charlie = table1Dict["a13"] * table1Dict["a12"];
 
         const table2Data = [
             { category: "Alpha", value: alpha },
