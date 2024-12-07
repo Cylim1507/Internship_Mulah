@@ -15,8 +15,14 @@ function init() {
         dataset = data;
         originalData = [...data]; // Store a copy of the original data
 
-        console.table(dataset, ["index", "value"]);
+        console.log("Data Loaded:", dataset);
 
+        if (dataset.length === 0) {
+            console.error("Dataset is empty. Check CSV file or data loading logic.");
+            return;
+        }
+
+        // Define scales
         var xScale = d3.scaleBand()
             .domain(d3.range(dataset.length))
             .range([0, w])
@@ -26,11 +32,15 @@ function init() {
             .domain([0, d3.max(dataset, d => d.value)])
             .range([h, 0]);
 
-        var svg = d3.select("body")
+        // Create SVG inside the chart element
+        var svg = d3.select("#chart")
             .append("svg")
             .attr("width", w)
             .attr("height", h);
 
+        console.log("SVG created:", svg);
+
+        // Function to render bars
         function renderBars() {
             var bars = svg.selectAll("rect").data(dataset);
 
@@ -50,6 +60,7 @@ function init() {
             bars.exit().remove();
         }
 
+        // Initial render
         renderBars();
 
         // Sorting button
@@ -67,6 +78,8 @@ function init() {
             xScale.domain(d3.range(dataset.length)); // Update scale
             renderBars(); // Re-render
         });
+    }).catch(function(error) {
+        console.error("Error loading CSV data:", error);
     });
 }
 
