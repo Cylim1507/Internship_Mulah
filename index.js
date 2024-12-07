@@ -121,7 +121,7 @@ function init() {
                         .attr("text-anchor", "middle")
                         .attr("fill", "black")
                         .text(d.value);
-                })
+                })  
                 .on("mouseout", function () {
                     d3.select("#tooltip").remove();
                     d3.select(this)
@@ -143,10 +143,16 @@ function init() {
             table1Dict[row.index] = row.value;
         });
 
-        // Calculate Table 2 values
-        const alpha = table1Dict["a5"] + table1Dict["a20"]; 
-        const beta = Math.round(table1Dict["a15"] / table1Dict["a7"]);
-        const charlie = table1Dict["a13"] * table1Dict["a12"];
+        // Log table1Dict to check the values
+        console.log("Table1 Dictionary:", table1Dict);
+
+        // Calculate Table 2 values with checks
+        const alpha = (table1Dict["A5"] && table1Dict["A20"]) ? table1Dict["A5"] + table1Dict["A20"] : 0; 
+        const beta = (table1Dict["A15"] && table1Dict["A7"]) ? Math.round(table1Dict["A15"] / table1Dict["A7"]) : 0;
+        const charlie = (table1Dict["A13"] && table1Dict["A12"]) ? table1Dict["A13"] * table1Dict["A12"] : 0;
+
+        // Log calculated values for debugging
+        console.log("Alpha:", alpha, "Beta:", beta, "Charlie:", charlie);
 
         const table2Data = [
             { category: "Alpha", value: alpha },
@@ -166,7 +172,7 @@ function init() {
                 .style("padding", "8px");
 
             tr.append("td")
-                .text(row.value)
+                .text(row.value !== undefined ? row.value : "Unavailable") // Fallback to 'Unavailable' if value is undefined
                 .style("border", "1px solid black")
                 .style("padding", "8px");
         });
