@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=640, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins&display=swap" rel="stylesheet">
+    <title>Page 3</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="title">
+            <h1>Mulah</h1>
+        </div>
+
+        <div class="content">
+            <h1>Task 2: Your Registration Information</h1>
+            <p><strong>Name:</strong> <span id="nameDisplay"></span></p>
+            <p><strong>Birthday:</strong> <span id="birthdayDisplay"></span></p>
+            <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+        </div>
+
+        <div class="footer">
+            Powered by <a href="https://www.mulahrewards.com/">MulahRewards.com</a>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve the stored data from localStorage
+        const name = localStorage.getItem("name");
+        const birthday = localStorage.getItem("birthday");
+        const email = localStorage.getItem("email");
+
+        // Display the data in the respective elements
+        document.getElementById("nameDisplay").textContent = name;
+        document.getElementById("birthdayDisplay").textContent = birthday;
+        document.getElementById("emailDisplay").textContent = email;
+    </script>
+</body>
+
+</html>

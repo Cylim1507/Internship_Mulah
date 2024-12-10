@@ -1,19 +1,14 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=640, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins&display=swap" rel="stylesheet">
-    <title>Page 1</title>
+    <title>Page 2</title>
     <link rel="stylesheet" href="stylesheet.css">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 </head>
 
 <body>
@@ -24,31 +19,45 @@
 
         <div class="register">
             <h1 class="welcome">Registration</h1>
-            <p>pleade fill up your details</p>
-            <form>
+            <p>Please fill up your details</p>
+            <form id="registrationForm">
                 <label for="name">Name</label><br>
-                <input type="text" id="name" name="name"><br><br>
+                <input type="text" id="name" name="name" required><br><br>
+
                 <label for="birthday">Birthday</label><br>
-                <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" /><br><br>
+                <input type="date" id="birthday" name="birthday" required><br><br>
+
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email"><br><br>
+                <input type="email" id="email" name="email" required><br><br>
 
-                <input type="submit" value="continue">
-
+                <input type="submit" value="Continue">
             </form>
         </div>
+
         <div class="footer">
             Powered by <a href="https://www.mulahrewards.com/">MulahRewards.com</a>
         </div>
     </div>
-</body>
 
-<script>
-    const phoneInputField = document.querySelector("#phone");
-    const phoneInput = window.intlTelInput(phoneInputField, {
-      utilsScript:
-        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    });
-  </script>
+    <script>
+        // Handle form submission
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent page reload on form submission
+            
+            // Retrieve form values
+            const name = document.getElementById("name").value;
+            const birthday = document.getElementById("birthday").value;
+            const email = document.getElementById("email").value;
+
+            // Store form data in localStorage for easy access on Page 3
+            localStorage.setItem("name", name);
+            localStorage.setItem("birthday", birthday);
+            localStorage.setItem("email", email);
+
+            // Redirect to Page 3
+            window.location.href = "page3.html";
+        });
+    </script>
+</body>
 
 </html>
