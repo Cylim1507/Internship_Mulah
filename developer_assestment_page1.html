@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=640, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins&display=swap" rel="stylesheet">
+    <title>Page 1</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="title">
+            <h1>Mulah</h1>
+        </div>
+
+        <div class="content">
+            <h1 class="welcome">Hello, Welcome!</h1>
+            <p>Check Your Loyalty Points & Rewards</p>
+            <div class="container">
+                <form id="login" onsubmit="process(event)">
+                    <div class="input_phone">
+                        <input id="phone" type="tel" name="phone" pattern="^\+60173527250$" placeholder="Enter phone number" required />
+                    </div>
+                    <br><br>
+                    <div class="submit_button">
+                        <input type="submit" class="btn" value="Check Loyalty Points" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer">
+            Powered by <a href="https://www.mulahrewards.com/">MulahRewards.com</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize phone input field
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+        // Process form submission
+        function process(event) {
+            event.preventDefault();  // Prevent form submission
+
+            const phoneNumber = phoneInputField.value;
+            const validPhone = "+60173527250"; // The required phone number
+
+            // Check if the entered phone number matches the valid one
+            if (phoneNumber === validPhone) {
+                // Redirect to page 2
+                window.location.href = "developer_assestment_page2.html"; // Redirect to page 2
+            } else {
+                // Show an alert if the phone number doesn't match
+                alert("Invalid phone number! Please enter the correct phone number.");
+            }
+        }
+    </script>
+</body>
+
+</html>

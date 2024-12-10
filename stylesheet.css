@@ -1,0 +1,66 @@
+/* Ensure the page takes up exactly 640x1136px */
+html, body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    color: gray;
+}
+
+/* Create a fixed-size container for the entire page */
+.page-container {
+    width: 640px;  /* Fixed width */
+    height: 1136px;  /* Fixed height */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Title area */
+.title {
+    font-size:x-large;
+    text-align: center;
+    padding: 20px;
+
+    font-family: "Kanit", sans-serif;
+    font-weight: 600;
+
+    color: darkorange;
+}
+
+
+/* Content area will take up remaining space */
+.content {
+    flex: 1;  /* Allow content to take up remaining space */
+    padding: 80px;
+    overflow: auto; /* Allow content to scroll if it overflows */
+}
+
+.welcome{
+    color: gray;
+    font-size: xxx-large;
+}
+
+.content p {
+    color: darkorange
+}
+
+.submit_button{
+    border:none;
+    border-radius:10px;
+}
+
+/* Footer will stay at the bottom */
+.footer {
+    text-align: center;
+    padding: 40px;
+    margin-top: auto; /* Push the footer to the bottom */
+    border-top: 2px solid #D3D3D3; /* Add a line above the footer */
+}
+
+/* Style for the anchor inside the footer */
+.footer a {
+    text-decoration: none;
+}
+
